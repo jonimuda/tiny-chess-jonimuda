@@ -4,8 +4,8 @@
 # move, and the loop ends when the env answers status "done".
 #
 # Its chess is one line deep: of the legal moves the env lists, it plays the
-# one that captures the most valuable piece, read from the FEN. Ties go, in
-# order, to the better promotion, the cheaper moving piece, then the first
+# one that gains the most material, read from the FEN. Promotions rank first,
+# then captured material, the cheaper moving piece, then the first
 # move in UCI order. No clock and no random: the same position always gets
 # the same move, so the trial's replay matches.
 #
@@ -55,7 +55,7 @@ def board_of(fen):
 
 
 def choose(fen, legal):
-    """The legal UCI move that takes the most, with the fixed tie-break."""
+    """The legal UCI move with the best fixed material tie-break."""
     board = board_of(fen)
 
     def rank(move):
