@@ -65,7 +65,7 @@ def choose(fen, legal):
             victim = "p"  # en passant: the pawn taken is beside the target
         taken = VALUE[victim.lower()] if victim else 0
         promo = VALUE[move[4]] if len(move) == 5 else 0
-        return (-taken, -promo, VALUE[mover], move)
+        return (-promo, -taken, VALUE[mover], move)
 
     return min(legal, key=rank)
 
