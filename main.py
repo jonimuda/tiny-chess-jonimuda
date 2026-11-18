@@ -54,6 +54,17 @@ def board_of(fen):
     return board
 
 
+def center_bonus(move):
+    """Prefer central destinations only after promotion and material gain."""
+    file = move[2]
+    rank = move[3]
+    if file not in "cdef":
+        return 0
+    if rank not in "3456":
+        return 0
+    return 1
+
+
 def choose(fen, legal):
     """The legal UCI move with the best fixed material tie-break."""
     board = board_of(fen)
@@ -65,7 +76,7 @@ def choose(fen, legal):
             victim = "p"  # en passant: the pawn taken is beside the target
         taken = VALUE[victim.lower()] if victim else 0
         promo = VALUE[move[4]] if len(move) == 5 else 0
-        return (-promo, -taken, VALUE[mover], move)
+        return (-promo, -taken, -center_bonus(move), VALUE[mover], move)
 
     return min(legal, key=rank)
 
